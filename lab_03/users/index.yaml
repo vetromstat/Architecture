@@ -115,17 +115,41 @@ paths:
             application/json: 
               schema: 
                 $ref: "#/components/schemas/HTTPValidationError"
-  /users/search: 
+  /users/login/{login}: 
     get: 
-      summary: "Search Users"
-      operationId: "search_users_users_search_get"
+      summary: "Get User By Login"
+      operationId: "get_user_by_login_users_login__login__get"
       parameters: 
-      - name: "query"
-        in: "query"
+      - name: "login"
+        in: "path"
         required: "true"
         schema: 
           type: "string"
-          title: "Query"
+          title: "Login"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /users/name/{name}: 
+    get: 
+      summary: "Search Users By Name"
+      operationId: "search_users_by_name_users_name__name__get"
+      parameters: 
+      - name: "name"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Name"
       responses: 
         200: 
           description: "Successful Response"
@@ -135,7 +159,7 @@ paths:
                 type: "array"
                 items: 
                   $ref: "#/components/schemas/UserResponse"
-                title: "Response Search Users Users Search Get"
+                title: "Response Search Users By Name Users Name  Name  Get"
         422: 
           description: "Validation Error"
           content: 

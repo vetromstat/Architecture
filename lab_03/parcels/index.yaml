@@ -4,28 +4,24 @@ info:
   title: "FastAPI"
   version: "0.1.0"
 paths: 
-  /users: 
+  /parcels/: 
     get: 
-      summary: "Get Users"
-      operationId: "get_users_users_get"
+      summary: "Get Parcels"
+      operationId: "get_parcels_parcels__get"
       responses: 
         200: 
           description: "Successful Response"
           content: 
             application/json: 
               schema: 
-                items: 
-                  $ref: "#/components/schemas/UserResponse"
-                type: "array"
-                title: "Response Get Users Users Get"
     post: 
-      summary: "Create User"
-      operationId: "create_user_users_post"
+      summary: "Create Parcel"
+      operationId: "create_parcel_parcels__post"
       requestBody: 
         content: 
           application/json: 
             schema: 
-              $ref: "#/components/schemas/UserRequest"
+              $ref: "#/components/schemas/Parcel"
         required: "true"
       responses: 
         200: 
@@ -33,76 +29,23 @@ paths:
           content: 
             application/json: 
               schema: 
-                $ref: "#/components/schemas/UserResponse"
         422: 
           description: "Validation Error"
           content: 
             application/json: 
               schema: 
                 $ref: "#/components/schemas/HTTPValidationError"
-  /users/{user_id}: 
+  /parcels/receiver/{receiver_id}: 
     get: 
-      summary: "Get User"
-      operationId: "get_user_users__user_id__get"
+      summary: "Get Parcels By Receiver"
+      operationId: "get_parcels_by_receiver_parcels_receiver__receiver_id__get"
       parameters: 
-      - name: "user_id"
+      - name: "receiver_id"
         in: "path"
         required: "true"
         schema: 
           type: "integer"
-          title: "User Id"
-      responses: 
-        200: 
-          description: "Successful Response"
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/UserResponse"
-        422: 
-          description: "Validation Error"
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/HTTPValidationError"
-    put: 
-      summary: "Update User"
-      operationId: "update_user_users__user_id__put"
-      parameters: 
-      - name: "user_id"
-        in: "path"
-        required: "true"
-        schema: 
-          type: "integer"
-          title: "User Id"
-      requestBody: 
-        required: "true"
-        content: 
-          application/json: 
-            schema: 
-              $ref: "#/components/schemas/UserRequest"
-      responses: 
-        200: 
-          description: "Successful Response"
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/UserResponse"
-        422: 
-          description: "Validation Error"
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/HTTPValidationError"
-    delete: 
-      summary: "Delete User"
-      operationId: "delete_user_users__user_id__delete"
-      parameters: 
-      - name: "user_id"
-        in: "path"
-        required: "true"
-        schema: 
-          type: "integer"
-          title: "User Id"
+          title: "Receiver Id"
       responses: 
         200: 
           description: "Successful Response"
@@ -115,27 +58,23 @@ paths:
             application/json: 
               schema: 
                 $ref: "#/components/schemas/HTTPValidationError"
-  /users/search: 
+  /parcels/sender/{sender_id}: 
     get: 
-      summary: "Search Users"
-      operationId: "search_users_users_search_get"
+      summary: "Get Parcels By Sender"
+      operationId: "get_parcels_by_sender_parcels_sender__sender_id__get"
       parameters: 
-      - name: "query"
-        in: "query"
+      - name: "sender_id"
+        in: "path"
         required: "true"
         schema: 
-          type: "string"
-          title: "Query"
+          type: "integer"
+          title: "Sender Id"
       responses: 
         200: 
           description: "Successful Response"
           content: 
             application/json: 
               schema: 
-                type: "array"
-                items: 
-                  $ref: "#/components/schemas/UserResponse"
-                title: "Response Search Users Users Search Get"
         422: 
           description: "Validation Error"
           content: 
@@ -153,56 +92,39 @@ components:
           title: "Detail"
       type: "object"
       title: "HTTPValidationError"
-    UserRequest: 
+    Parcel: 
       properties: 
-        login: 
-          type: "string"
-          title: "Login"
-        password: 
-          type: "string"
-          title: "Password"
-        first_name: 
-          type: "string"
-          title: "First Name"
-        last_name: 
-          type: "string"
-          title: "Last Name"
-        address: 
-          type: "string"
-          title: "Address"
-      type: "object"
-      required: 
-      - "login"
-      - "password"
-      - "first_name"
-      - "last_name"
-      - "address"
-      title: "UserRequest"
-    UserResponse: 
-      properties: 
-        id: 
+        sender_id: 
           type: "integer"
-          title: "Id"
-        login: 
+          title: "Sender Id"
+        receiver_id: 
+          type: "integer"
+          title: "Receiver Id"
+        tracking_id: 
+          type: "integer"
+          title: "Tracking Id"
+        delivery_id: 
+          anyOf: 
+          - type: "string"
+          - type: "null"
+          title: "Delivery Id"
+          default: ""
+        status: 
           type: "string"
-          title: "Login"
-        first_name: 
-          type: "string"
-          title: "First Name"
-        last_name: 
-          type: "string"
-          title: "Last Name"
-        address: 
-          type: "string"
-          title: "Address"
+          title: "Status"
+        shipment_method: 
+          anyOf: 
+          - type: "string"
+          - type: "null"
+          title: "Shipment Method"
+          default: "unknown"
       type: "object"
       required: 
-      - "id"
-      - "login"
-      - "first_name"
-      - "last_name"
-      - "address"
-      title: "UserResponse"
+      - "sender_id"
+      - "receiver_id"
+      - "tracking_id"
+      - "status"
+      title: "Parcel"
     ValidationError: 
       properties: 
         loc: 
