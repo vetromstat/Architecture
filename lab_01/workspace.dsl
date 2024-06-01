@@ -57,11 +57,11 @@ workspace "delivery Service" {
 
             user_service -> user_database "User data" 
             
-            parcel_service -> delivery_database "Storing and retrieving shipment information"            
+            parcel_service -> delivery_database.parcels_collection "Storing and retrieving shipment information"            
 
             delivery_service -> user_service "Information about recipients and senders"
-            delivery_service -> delivery_database "Retrieving and updating delivery data"
-            delivery_service -> parcel_service "Adding and information about shipments" 
+            delivery_service -> delivery_database.delievery_collection "Retrieving and updating delivery data"
+            delivery_service -> parcel_service "Adding a information about shipments" 
             
             
         }

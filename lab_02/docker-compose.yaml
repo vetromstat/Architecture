@@ -4,13 +4,14 @@ services:
   init:
     container_name: init
     build:
+      context: ../init
       dockerfile: Dockerfile
     networks:
       - arch-network
     depends_on:
       postgres:
         condition: service_healthy
-  
+
   users:
     container_name: users
     build:
