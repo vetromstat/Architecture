@@ -1,7 +1,7 @@
 FROM python:3.11
 WORKDIR /arch/deliveries
 
-RUN pip install fastapi[all] pymongo motor pydantic
+RUN pip install fastapi[all] pymongo motor pydantic aiohttp pyjwt
 
 COPY . /arch/deliveries/ 
 

@@ -1,7 +1,7 @@
 FROM python:3.11
 WORKDIR  /arch/parcels/ 
 
-RUN pip install fastapi[all] pymongo motor pydantic
+RUN pip install pyjwt aiohttp requests fastapi[all] pymongo motor pydantic
 
 COPY . /arch/parcels/   
 

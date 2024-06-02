@@ -4,25 +4,56 @@ info:
   title: "FastAPI"
   version: "0.1.0"
 paths: 
-  /parcels/: 
-    get: 
-      summary: "Get Parcels"
-      operationId: "get_parcels_parcels__get"
+  /parcels/auth/: 
+    post: 
+      summary: "Auth Parcel"
+      operationId: "auth_parcel_parcels_auth__post"
       responses: 
         200: 
           description: "Successful Response"
           content: 
             application/json: 
               schema: 
+      security: 
+      -
+        HTTPBasic: 
+  /parcels/: 
+    get: 
+      summary: "Get Parcels"
+      operationId: "get_parcels_parcels__get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
     post: 
       summary: "Create Parcel"
       operationId: "create_parcel_parcels__post"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       requestBody: 
+        required: "true"
         content: 
           application/json: 
             schema: 
               $ref: "#/components/schemas/Parcel"
-        required: "true"
       responses: 
         200: 
           description: "Successful Response"
@@ -46,6 +77,11 @@ paths:
         schema: 
           type: "integer"
           title: "Receiver Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       responses: 
         200: 
           description: "Successful Response"
@@ -69,6 +105,11 @@ paths:
         schema: 
           type: "integer"
           title: "Sender Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       responses: 
         200: 
           description: "Successful Response"
@@ -146,3 +187,7 @@ components:
       - "msg"
       - "type"
       title: "ValidationError"
+  securitySchemes: 
+    HTTPBasic: 
+      type: "http"
+      scheme: "basic"

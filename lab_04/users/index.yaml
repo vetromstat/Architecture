@@ -4,29 +4,55 @@ info:
   title: "FastAPI"
   version: "0.1.0"
 paths: 
-  /users: 
-    get: 
-      summary: "Get Users"
-      operationId: "get_users_users_get"
+  /auth: 
+    post: 
+      summary: "Authenticate User"
+      operationId: "authenticate_user_auth_post"
       responses: 
         200: 
           description: "Successful Response"
           content: 
             application/json: 
               schema: 
+                $ref: "#/components/schemas/TokenResponse"
+      security: 
+      -
+        HTTPBasic: 
+  /users: 
+    get: 
+      summary: "Get Users"
+      operationId: "get_users_users_get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                type: "array"
                 items: 
                   $ref: "#/components/schemas/UserResponse"
-                type: "array"
                 title: "Response Get Users Users Get"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
     post: 
       summary: "Create User"
       operationId: "create_user_users_post"
       requestBody: 
+        required: "true"
         content: 
           application/json: 
             schema: 
               $ref: "#/components/schemas/UserRequest"
-        required: "true"
       responses: 
         200: 
           description: "Successful Response"
@@ -51,6 +77,11 @@ paths:
         schema: 
           type: "integer"
           title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       responses: 
         200: 
           description: "Successful Response"
@@ -74,6 +105,11 @@ paths:
         schema: 
           type: "integer"
           title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       requestBody: 
         required: "true"
         content: 
@@ -103,6 +139,11 @@ paths:
         schema: 
           type: "integer"
           title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       responses: 
         200: 
           description: "Successful Response"
@@ -126,6 +167,11 @@ paths:
         schema: 
           type: "string"
           title: "Login"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       responses: 
         200: 
           description: "Successful Response"
@@ -150,6 +196,11 @@ paths:
         schema: 
           type: "string"
           title: "Name"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
       responses: 
         200: 
           description: "Successful Response"
@@ -177,6 +228,15 @@ components:
           title: "Detail"
       type: "object"
       title: "HTTPValidationError"
+    TokenResponse: 
+      properties: 
+        access_token: 
+          type: "string"
+          title: "Access Token"
+      type: "object"
+      required: 
+      - "access_token"
+      title: "TokenResponse"
     UserRequest: 
       properties: 
         login: 
@@ -248,3 +308,7 @@ components:
       - "msg"
       - "type"
       title: "ValidationError"
+  securitySchemes: 
+    HTTPBasic: 
+      type: "http"
+      scheme: "basic"

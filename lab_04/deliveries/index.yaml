@@ -1,256 +1,214 @@
-{
-    "openapi": "3.1.0",
-    "info": {
-        "title": "FastAPI",
-        "version": "0.1.0"
-    },
-    "paths": {
-        "/deliveries/": {
-            "get": {
-                "summary": "Get All Deliveries",
-                "operationId": "get_all_deliveries_deliveries__get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "summary": "Create Delivery",
-                "operationId": "create_delivery_deliveries__post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Delivery"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/deliveries/{delivery_id}": {
-            "get": {
-                "summary": "Get Delivery",
-                "operationId": "get_delivery_deliveries__delivery_id__get",
-                "parameters": [
-                    {
-                        "name": "delivery_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "title": "Delivery Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/deliveries/user/{user_id}": {
-            "get": {
-                "summary": "Get User Deliveries",
-                "operationId": "get_user_deliveries_deliveries_user__user_id__get",
-                "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "title": "User Id"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "summary": "Create User Delivery",
-                "operationId": "create_user_delivery_deliveries_user__user_id__post",
-                "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "title": "User Id"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Delivery"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Delivery": {
-                "properties": {
-                    "sender_id": {
-                        "type": "integer",
-                        "title": "Sender Id"
-                    },
-                    "receiver_id": {
-                        "type": "integer",
-                        "title": "Receiver Id"
-                    },
-                    "status": {
-                        "type": "string",
-                        "title": "Status"
-                    },
-                    "date": {
-                        "type": "string",
-                        "format": "date-time",
-                        "title": "Date"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "sender_id",
-                    "receiver_id",
-                    "status"
-                ],
-                "title": "Delivery"
-            },
-            "HTTPValidationError": {
-                "properties": {
-                    "detail": {
-                        "items": {
-                            "$ref": "#/components/schemas/ValidationError"
-                        },
-                        "type": "array",
-                        "title": "Detail"
-                    }
-                },
-                "type": "object",
-                "title": "HTTPValidationError"
-            },
-            "ValidationError": {
-                "properties": {
-                    "loc": {
-                        "items": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "integer"
-                                }
-                            ]
-                        },
-                        "type": "array",
-                        "title": "Location"
-                    },
-                    "msg": {
-                        "type": "string",
-                        "title": "Message"
-                    },
-                    "type": {
-                        "type": "string",
-                        "title": "Error Type"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "loc",
-                    "msg",
-                    "type"
-                ],
-                "title": "ValidationError"
-            }
-        }
-    }
-}
+---
+openapi: "3.1.0"
+info: 
+  title: "FastAPI"
+  version: "0.1.0"
+paths: 
+  /deliveries/auth/: 
+    post: 
+      summary: "Auth Delivery"
+      operationId: "auth_delivery_deliveries_auth__post"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+      security: 
+      -
+        HTTPBasic: 
+  /deliveries/: 
+    post: 
+      summary: "Create Delivery"
+      operationId: "create_delivery_deliveries__post"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Delivery"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    get: 
+      summary: "Get All Deliveries"
+      operationId: "get_all_deliveries_deliveries__get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /deliveries/{delivery_id}: 
+    get: 
+      summary: "Get Delivery"
+      operationId: "get_delivery_deliveries__delivery_id__get"
+      parameters: 
+      - name: "delivery_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Delivery Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /deliveries/user/{user_id}: 
+    get: 
+      summary: "Get User Deliveries"
+      operationId: "get_user_deliveries_deliveries_user__user_id__get"
+      parameters: 
+      - name: "user_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    post: 
+      summary: "Create User Delivery"
+      operationId: "create_user_delivery_deliveries_user__user_id__post"
+      parameters: 
+      - name: "user_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Delivery"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+components: 
+  schemas: 
+    Delivery: 
+      properties: 
+        sender_id: 
+          type: "integer"
+          title: "Sender Id"
+        receiver_id: 
+          type: "integer"
+          title: "Receiver Id"
+        status: 
+          type: "string"
+          title: "Status"
+        date: 
+          type: "string"
+          format: "date-time"
+          title: "Date"
+      type: "object"
+      required: 
+      - "sender_id"
+      - "receiver_id"
+      - "status"
+      title: "Delivery"
+    HTTPValidationError: 
+      properties: 
+        detail: 
+          items: 
+            $ref: "#/components/schemas/ValidationError"
+          type: "array"
+          title: "Detail"
+      type: "object"
+      title: "HTTPValidationError"
+    ValidationError: 
+      properties: 
+        loc: 
+          items: 
+            anyOf: 
+            - type: "string"
+            - type: "integer"
+          type: "array"
+          title: "Location"
+        msg: 
+          type: "string"
+          title: "Message"
+        type: 
+          type: "string"
+          title: "Error Type"
+      type: "object"
+      required: 
+      - "loc"
+      - "msg"
+      - "type"
+      title: "ValidationError"
+  securitySchemes: 
+    HTTPBasic: 
+      type: "http"
+      scheme: "basic"
