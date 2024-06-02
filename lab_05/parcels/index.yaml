@@ -1,0 +1,193 @@
+---
+openapi: "3.1.0"
+info: 
+  title: "FastAPI"
+  version: "0.1.0"
+paths: 
+  /parcels/auth/: 
+    post: 
+      summary: "Auth Parcel"
+      operationId: "auth_parcel_parcels_auth__post"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+      security: 
+      -
+        HTTPBasic: 
+  /parcels/: 
+    get: 
+      summary: "Get Parcels"
+      operationId: "get_parcels_parcels__get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    post: 
+      summary: "Create Parcel"
+      operationId: "create_parcel_parcels__post"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Parcel"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /parcels/receiver/{receiver_id}: 
+    get: 
+      summary: "Get Parcels By Receiver"
+      operationId: "get_parcels_by_receiver_parcels_receiver__receiver_id__get"
+      parameters: 
+      - name: "receiver_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "Receiver Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /parcels/sender/{sender_id}: 
+    get: 
+      summary: "Get Parcels By Sender"
+      operationId: "get_parcels_by_sender_parcels_sender__sender_id__get"
+      parameters: 
+      - name: "sender_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "Sender Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+components: 
+  schemas: 
+    HTTPValidationError: 
+      properties: 
+        detail: 
+          items: 
+            $ref: "#/components/schemas/ValidationError"
+          type: "array"
+          title: "Detail"
+      type: "object"
+      title: "HTTPValidationError"
+    Parcel: 
+      properties: 
+        sender_id: 
+          type: "integer"
+          title: "Sender Id"
+        receiver_id: 
+          type: "integer"
+          title: "Receiver Id"
+        tracking_id: 
+          type: "integer"
+          title: "Tracking Id"
+        delivery_id: 
+          anyOf: 
+          - type: "string"
+          - type: "null"
+          title: "Delivery Id"
+          default: ""
+        status: 
+          type: "string"
+          title: "Status"
+        shipment_method: 
+          anyOf: 
+          - type: "string"
+          - type: "null"
+          title: "Shipment Method"
+          default: "unknown"
+      type: "object"
+      required: 
+      - "sender_id"
+      - "receiver_id"
+      - "tracking_id"
+      - "status"
+      title: "Parcel"
+    ValidationError: 
+      properties: 
+        loc: 
+          items: 
+            anyOf: 
+            - type: "string"
+            - type: "integer"
+          type: "array"
+          title: "Location"
+        msg: 
+          type: "string"
+          title: "Message"
+        type: 
+          type: "string"
+          title: "Error Type"
+      type: "object"
+      required: 
+      - "loc"
+      - "msg"
+      - "type"
+      title: "ValidationError"
+  securitySchemes: 
+    HTTPBasic: 
+      type: "http"
+      scheme: "basic"

@@ -1,0 +1,314 @@
+---
+openapi: "3.1.0"
+info: 
+  title: "FastAPI"
+  version: "0.1.0"
+paths: 
+  /auth: 
+    post: 
+      summary: "Authenticate User"
+      operationId: "authenticate_user_auth_post"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/TokenResponse"
+      security: 
+      -
+        HTTPBasic: 
+  /users: 
+    get: 
+      summary: "Get Users"
+      operationId: "get_users_users_get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                type: "array"
+                items: 
+                  $ref: "#/components/schemas/UserResponse"
+                title: "Response Get Users Users Get"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    post: 
+      summary: "Create User"
+      operationId: "create_user_users_post"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/UserRequest"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /users/{user_id}: 
+    get: 
+      summary: "Get User"
+      operationId: "get_user_users__user_id__get"
+      parameters: 
+      - name: "user_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    put: 
+      summary: "Update User"
+      operationId: "update_user_users__user_id__put"
+      parameters: 
+      - name: "user_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/UserRequest"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    delete: 
+      summary: "Delete User"
+      operationId: "delete_user_users__user_id__delete"
+      parameters: 
+      - name: "user_id"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "integer"
+          title: "User Id"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /users/login/{login}: 
+    get: 
+      summary: "Get User By Login"
+      operationId: "get_user_by_login_users_login__login__get"
+      parameters: 
+      - name: "login"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Login"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /users/name/{name}: 
+    get: 
+      summary: "Search Users By Name"
+      operationId: "search_users_by_name_users_name__name__get"
+      parameters: 
+      - name: "name"
+        in: "path"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Name"
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+                type: "array"
+                items: 
+                  $ref: "#/components/schemas/UserResponse"
+                title: "Response Search Users By Name Users Name  Name  Get"
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+components: 
+  schemas: 
+    HTTPValidationError: 
+      properties: 
+        detail: 
+          items: 
+            $ref: "#/components/schemas/ValidationError"
+          type: "array"
+          title: "Detail"
+      type: "object"
+      title: "HTTPValidationError"
+    TokenResponse: 
+      properties: 
+        access_token: 
+          type: "string"
+          title: "Access Token"
+      type: "object"
+      required: 
+      - "access_token"
+      title: "TokenResponse"
+    UserRequest: 
+      properties: 
+        login: 
+          type: "string"
+          title: "Login"
+        password: 
+          type: "string"
+          title: "Password"
+        first_name: 
+          type: "string"
+          title: "First Name"
+        last_name: 
+          type: "string"
+          title: "Last Name"
+        address: 
+          type: "string"
+          title: "Address"
+      type: "object"
+      required: 
+      - "login"
+      - "password"
+      - "first_name"
+      - "last_name"
+      - "address"
+      title: "UserRequest"
+    UserResponse: 
+      properties: 
+        id: 
+          type: "integer"
+          title: "Id"
+        login: 
+          type: "string"
+          title: "Login"
+        first_name: 
+          type: "string"
+          title: "First Name"
+        last_name: 
+          type: "string"
+          title: "Last Name"
+        address: 
+          type: "string"
+          title: "Address"
+      type: "object"
+      required: 
+      - "id"
+      - "login"
+      - "first_name"
+      - "last_name"
+      - "address"
+      title: "UserResponse"
+    ValidationError: 
+      properties: 
+        loc: 
+          items: 
+            anyOf: 
+            - type: "string"
+            - type: "integer"
+          type: "array"
+          title: "Location"
+        msg: 
+          type: "string"
+          title: "Message"
+        type: 
+          type: "string"
+          title: "Error Type"
+      type: "object"
+      required: 
+      - "loc"
+      - "msg"
+      - "type"
+      title: "ValidationError"
+  securitySchemes: 
+    HTTPBasic: 
+      type: "http"
+      scheme: "basic"
