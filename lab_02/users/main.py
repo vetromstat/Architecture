@@ -10,7 +10,6 @@ import secrets
 
 app = FastAPI()
 
-# Create database engine and session
 engine = create_engine('postgresql://postgres:postgres@postgres:5432/archdb')
 Base = declarative_base()
 

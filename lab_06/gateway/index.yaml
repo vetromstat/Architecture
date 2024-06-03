@@ -4,29 +4,23 @@ info:
   title: "FastAPI"
   version: "0.1.0"
 paths: 
-  /parcels/auth/: 
+  /auth/: 
     post: 
-      summary: "Auth Parcel"
-      operationId: "auth_parcel_parcels_auth__post"
-      responses: 
-        200: 
-          description: "Successful Response"
-          content: 
-            application/json: 
-              schema: 
-      security: 
-      -
-        HTTPBasic: 
-  /parcels/: 
-    get: 
-      summary: "Get Parcels"
-      operationId: "get_parcels_parcels__get"
+      summary: "Auth"
+      operationId: "auth_auth__post"
       parameters: 
-      - name: "token"
+      - name: "username"
         in: "query"
         required: "true"
         schema: 
-          title: "Token"
+          type: "string"
+          title: "Username"
+      - name: "password"
+        in: "query"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Password"
       responses: 
         200: 
           description: "Successful Response"
@@ -39,48 +33,22 @@ paths:
             application/json: 
               schema: 
                 $ref: "#/components/schemas/HTTPValidationError"
-    post: 
-      summary: "Create Parcel"
-      operationId: "create_parcel_parcels__post"
-      parameters: 
-      - name: "token"
-        in: "query"
-        required: "true"
-        schema: 
-          title: "Token"
-      requestBody: 
-        required: "true"
-        content: 
-          application/json: 
-            schema: 
-              $ref: "#/components/schemas/Parcel"
-      responses: 
-        200: 
-          description: "Successful Response"
-          content: 
-            application/json: 
-              schema: 
-        422: 
-          description: "Validation Error"
-          content: 
-            application/json: 
-              schema: 
-                $ref: "#/components/schemas/HTTPValidationError"
-  /parcels/receiver/{receiver_id}: 
+  /users/{user_id}: 
     get: 
-      summary: "Get Parcels By Receiver"
-      operationId: "get_parcels_by_receiver_parcels_receiver__receiver_id__get"
+      summary: "Get User"
+      operationId: "get_user_users__user_id__get"
       parameters: 
-      - name: "receiver_id"
+      - name: "user_id"
         in: "path"
         required: "true"
         schema: 
           type: "integer"
-          title: "Receiver Id"
+          title: "User Id"
       - name: "token"
         in: "query"
         required: "true"
         schema: 
+          type: "string"
           title: "Token"
       responses: 
         200: 
@@ -94,21 +62,22 @@ paths:
             application/json: 
               schema: 
                 $ref: "#/components/schemas/HTTPValidationError"
-  /parcels/sender/{sender_id}: 
+  /deliveries/{delivery_id}: 
     get: 
-      summary: "Get Parcels By Sender"
-      operationId: "get_parcels_by_sender_parcels_sender__sender_id__get"
+      summary: "Get Delivery"
+      operationId: "get_delivery_deliveries__delivery_id__get"
       parameters: 
-      - name: "sender_id"
+      - name: "delivery_id"
         in: "path"
         required: "true"
         schema: 
-          type: "integer"
-          title: "Sender Id"
+          type: "string"
+          title: "Delivery Id"
       - name: "token"
         in: "query"
         required: "true"
         schema: 
+          type: "string"
           title: "Token"
       responses: 
         200: 
@@ -137,6 +106,109 @@ paths:
         in: "query"
         required: "true"
         schema: 
+          type: "string"
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /parcels/: 
+    post: 
+      summary: "Create Parcel"
+      operationId: "create_parcel_parcels__post"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Token"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Parcel"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    get: 
+      summary: "Get All Parcels"
+      operationId: "get_all_parcels_parcels__get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Token"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+  /deliveries/: 
+    post: 
+      summary: "Create Delivery"
+      operationId: "create_delivery_deliveries__post"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          type: "string"
+          title: "Token"
+      requestBody: 
+        required: "true"
+        content: 
+          application/json: 
+            schema: 
+              $ref: "#/components/schemas/Delivery"
+      responses: 
+        200: 
+          description: "Successful Response"
+          content: 
+            application/json: 
+              schema: 
+        422: 
+          description: "Validation Error"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/HTTPValidationError"
+    get: 
+      summary: "Get All Deliveries"
+      operationId: "get_all_deliveries_deliveries__get"
+      parameters: 
+      - name: "token"
+        in: "query"
+        required: "true"
+        schema: 
+          type: "string"
           title: "Token"
       responses: 
         200: 
@@ -152,6 +224,27 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
 components: 
   schemas: 
+    Delivery: 
+      properties: 
+        sender_id: 
+          type: "integer"
+          title: "Sender Id"
+        receiver_id: 
+          type: "integer"
+          title: "Receiver Id"
+        status: 
+          type: "string"
+          title: "Status"
+        date: 
+          type: "string"
+          format: "date-time"
+          title: "Date"
+      type: "object"
+      required: 
+      - "sender_id"
+      - "receiver_id"
+      - "status"
+      title: "Delivery"
     HTTPValidationError: 
       properties: 
         detail: 
@@ -211,7 +304,3 @@ components:
       - "msg"
       - "type"
       title: "ValidationError"
-  securitySchemes: 
-    HTTPBasic: 
-      type: "http"
-      scheme: "basic"
