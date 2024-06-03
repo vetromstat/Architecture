@@ -2,6 +2,7 @@ import random
 import string
 from sqlalchemy import create_engine, inspect, MetaData, Table, Column, Integer, String, Index
 from sqlalchemy.orm import sessionmaker
+from passlib.hash import bcrypt
 
 
 def create_tables(table_name):
@@ -69,6 +70,8 @@ def init_database(table_name, num_users=1):
     create_tables(table_name)
     users_data = generate_random_data(num_users)
     print("Inserted data: " + str(users_data))
+    for user in users_data:
+        user['password'] = bcrypt.hash(user['password'])
     insert_data(users_data, table_name)
 
 

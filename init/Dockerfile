@@ -1,7 +1,7 @@
 FROM python:3.11
 WORKDIR /arch/init
 
-RUN pip install sqlalchemy psycopg2-binary motor pydantic
+RUN pip install sqlalchemy psycopg2-binary motor pydantic passlib
 
 COPY . /arch/init/ 
 

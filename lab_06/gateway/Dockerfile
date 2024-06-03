@@ -2,7 +2,7 @@ FROM python:3.11
 
 WORKDIR /arch/gateway
 
-RUN pip install redis fastapi[all] pymongo motor pydantic pybreaker pyjwt
+RUN pip install circuitbreaker fastapi[all] pydantic aiohttp pyjwt
 
 COPY . /arch/gateway/
 

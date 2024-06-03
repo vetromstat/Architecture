@@ -127,3 +127,22 @@ async def get_parcels_by_sender(sender_id: int, token: str = Depends(verify_jwt_
         parcels.append(Parcel(**parcel))
     cache_set(cache_key, json.dumps([parcel.dict() for parcel in parcels]), expire=3600)
     return parcels
+
+@app.get("/parcels/{parcel_id}")
+async def get_parcel(parcel_id: str, token: str = Depends(verify_jwt_token)):
+    cache_key = f'parcel:{parcel_id}'
+    cached_parcel = cache_get(cache_key)
+    if cached_parcel:
+        cached_parcel = json.loads(cached_parcel.decode('utf-8'))
+        return Parcel(**cached_parcel)
+    result = parcels_collection.find_one({"_id": ObjectId(parcel_id)})
+    if result is None:
+        raise HTTPException(status_code=404, detail="Parcel not found")
+    parcel = {
+        "sender_id": result.get("sender_id"),
+        "receiver_id": result.get("receiver_id"),
+        "status": result.get("status"),
+        "shipment_method": result.get("shipment_method")
+    }
+    cache_set(cache_key, json.dumps(parcel), expire=3600)
+    return Parcel(**parcel)
